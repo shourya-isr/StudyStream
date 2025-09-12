@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "shourya-isr",
+    "password": "password",
+    "database": "studystream",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "shourya-isr",
+    "password": "password",
+    "database": "studystream",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "shourya-isr",
+    "password": "password",
+    "database": "studystream",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
