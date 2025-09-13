@@ -3,7 +3,7 @@ import { OpenAI } from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPEN_API_KEY_PAID });
 
-const PLANNER_PROMPT = `You are StudyStream’s Planner Agent. Your job is to take a set of assignment tasks (each with a title and estimated duration), the full assignment details (including due date), and a student’s calendar availability, and generate a personalized, actionable schedule for completing the assignment on time. Your output must be a strict JSON object in the following format:\n\n{\n  "scheduledTasks": [\n    {\n      "title": string,\n      "duration": number,\n      "planned_start": string, // ISO 8601 datetime\n      "planned_end": string    // ISO 8601 datetime\n    }\n  ],\n  "warnings": [string]\n}\n\nInstructions:\n- Use the provided task list, assignment details (including due date), and calendar slots to distribute work sessions, avoiding conflicts and balancing workload.\n- Schedule tasks around lectures, routines, and extracurriculars, using only available calendar slots.\n- If a task cannot be scheduled before the due date, add a warning explaining why.\n- Do not include any commentary, explanation, or extra text—respond ONLY with the JSON object.\n- Your goal is to help students finish assignments on time, reduce stress, and provide a clear, actionable plan.\n\nContext:\n- Students may procrastinate or fall behind; your plan should be realistic and adaptive.\n- Progress will be tracked and feedback given as students work.\n- The schedule should be easy to follow and update if needed.`;
+const PLANNER_PROMPT = `You are StudyStream’s Planner Agent. Your job is to take a set of assignment tasks (each with a title and estimated duration), the full assignment details (including due date), and a student’s calendar availability, and generate a personalized, actionable schedule for completing the assignment on time. Your output must be a strict JSON object in the following format:\n\n{\n  "scheduledTasks": [\n    {\n      "title": string,\n      "duration": number,\n      "planned_start": string, // ISO 8601 datetime\n      "planned_end": string    // ISO 8601 datetime\n    }\n  ],\n  "warnings": [string]\n}\n\nInstructions:\n- You must guarantee that NO scheduled task overlaps with any blocked or unavailable calendar slot.\n- Use only available calendar slots for scheduling; never schedule a task in a conflicting time.\n- If a task cannot be scheduled before the due date without conflicts, add a warning explaining why.\n- Do not include any commentary, explanation, or extra text—respond ONLY with the JSON object.\n- Your goal is to help students finish assignments on time, reduce stress, and provide a clear, actionable plan with zero conflicts.\n\nContext:\n- Students may procrastinate or fall behind; your plan should be realistic and adaptive.\n- Progress will be tracked and feedback given as students work.\n- The schedule should be easy to follow and update if needed.`;
 
 async function plan(assignment, taskPlans, calendarData) {
   // Prepare input for the assistant
@@ -27,7 +27,7 @@ async function plan(assignment, taskPlans, calendarData) {
 
   // Call OpenAI API
   const response = await openai.chat.completions.create({
-    model: 'gpt-4.1-nano',
+  model: 'gpt-4-turbo',
     messages,
     temperature: 0.4,
     max_tokens: 1024

@@ -7,7 +7,7 @@ const TEST_ASSIGNMENT = {
   title: 'Full Flow Assignment',
   description: 'Test full workflow',
   course: 'Math 101',
-  due_date: '2025-09-30',
+  due_date: '2025-09-16',
   priority: 'high',
   media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
   estimatedhours: 20,
@@ -46,5 +46,5 @@ describe('AssignmentService Full Flow', () => {
     if (scheduled.warnings && scheduled.warnings.length > 0) {
       console.log('Full workflow warnings:', scheduled.warnings);
     }
-  });
+  }, 20000);
 });
