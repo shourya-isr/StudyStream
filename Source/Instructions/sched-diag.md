@@ -77,7 +77,7 @@ sequenceDiagram
 ```
 ## 3. Adapt on Overrun (Execution Feedback → Heal Plan)
 
-![Scheduler Diagram 4](schedule_tasks.svg)
+![Scheduler Diagram 4](schedule_tasks.png)
 
 ```mermaid
 sequenceDiagram
@@ -94,10 +94,10 @@ sequenceDiagram
     AssignmentController->>AssignmentService: Create assignment, save file
     AssignmentService->>TaskComplexityAgent: Analyze file, estimate duration/complexity
     TaskComplexityAgent-->>AssignmentService: Return possible task plans (durations, complexity)
-    AssignmentService->>SchedulerService: Pass assignment + task plans
+    AssignmentService->>SchedulerService: Pass assignment details + scrubbed task plans
     SchedulerService->>Calendar: Request calendar availability
     Calendar-->>SchedulerService: Return calendar data
-    SchedulerService->>PlannerAgent: Pass assignment + task plans + calendar data
+    SchedulerService->>PlannerAgent: Pass assignment details + scrubbed task plans + calendar data
     PlannerAgent-->>SchedulerService: Return scheduled tasks
     SchedulerService-->>AssignmentService: Return scheduled tasks
     AssignmentService->>DB: Update assignment with scheduled tasks

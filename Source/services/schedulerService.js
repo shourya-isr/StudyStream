@@ -38,9 +38,14 @@ import CalendarService from './calendarService.js';
 
 async function schedule(assignment, taskPlans) {
   // Step 1: Get calendar data
+  console.log('SchedulerService: Received assignment:', assignment);
+  console.log('SchedulerService: Received scrubbed task plans:', taskPlans);
   const calendarData = await CalendarService.getAvailability(assignment.student_id);
-  // Step 2: Pass to PlannerAgent
-  return await PlannerAgent.plan(assignment, taskPlans, calendarData);
+  console.log('SchedulerService: Received calendar data:', calendarData);
+  // Step 2: Pass full assignment details to PlannerAgent
+  const result = await PlannerAgent.plan(assignment, taskPlans, calendarData);
+  console.log('SchedulerService: PlannerAgent result:', result);
+  return result;
 }
 
 export default {
