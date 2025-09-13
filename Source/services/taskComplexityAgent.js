@@ -47,7 +47,7 @@ async function analyze(pdfPath, question) {
     } catch (e) {
       throw new Error("Response was not valid JSON: " + message.content[0].text.value);
     }
-    // Validate schema
+    // Validate schema (allow duration to be number or string)
     if (
       typeof json.totalEstimatedDuration === "number" &&
       ["low", "medium", "high"].includes(json.overallComplexity) &&
@@ -55,10 +55,11 @@ async function analyze(pdfPath, question) {
       typeof json.rationale === "string" &&
       json.possibleTasks.every(
         t => typeof t.title === "string" &&
-             typeof t.duration === "number" &&
+             (typeof t.duration === "number" || typeof t.duration === "string") &&
              ["low", "medium", "high"].includes(t.complexity)
       )
     ) {
+      console.log("TaskComplexityAgent: Parsed result:", json);
       return json;
     } else {
       throw new Error("Response JSON does not match required schema: " + JSON.stringify(json));

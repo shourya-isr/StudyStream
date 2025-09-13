@@ -41,7 +41,8 @@ describe('Assignment Update/Replan Flow', () => {
 //     const newDueDate = '2025-09-16T23:59:00.000Z';
 //     const result = await AssignmentService.updateAssignment(assignment.id, { due_date: newDueDate });
 
-//     expect(result.updatedAssignment.due_date).toBe(newDueDate);
+//     // Ensure due_date is compared as string
+//     expect(new Date(result.updatedAssignment.due_date).toISOString()).toBe(newDueDate);
 //     expect(Array.isArray(result.updatedTasks)).toBe(true);
 //     expect(result.updatedTasks.length).toBeGreaterThanOrEqual(1);
 //     expect(result.warnings).toBeDefined();

@@ -44,8 +44,29 @@ export default {
       const allTasks = await db.Task.findAll({ where: { assignment_id: id } });
       const activeTasks = allTasks.filter(t => t.status === 'active');
 
-      // 3. Fetch every single task that exists (no filters)
-      const conflictingTasks = await db.Task.findAll();
+      // 3. Fetch all assignments for the student, get all tasks for those assignments, filter by planned_start < assignment due date
+      let dueDateObj = assignment.due_date;
+      if (typeof dueDateObj === 'string') {
+        const parsed = Date.parse(dueDateObj);
+        if (!isNaN(parsed)) {
+          dueDateObj = new Date(parsed);
+        } else {
+          dueDateObj = null;
+        }
+      }
+      // Get all assignments for this student
+      const studentAssignments = await db.Assignment.findAll({ where: { student_id: assignment.student_id } });
+      const assignmentIds = studentAssignments.map(a => a.id);
+      // Get all tasks for those assignments
+      const allStudentTasks = await db.Task.findAll({ where: { assignment_id: assignmentIds } });
+      let conflictingTasks = [];
+      if (dueDateObj instanceof Date && !isNaN(dueDateObj.getTime())) {
+        conflictingTasks = allStudentTasks.filter(task => {
+          if (!task.planned_start) return false;
+          const taskStart = typeof task.planned_start === 'string' ? new Date(task.planned_start) : task.planned_start;
+          return taskStart instanceof Date && !isNaN(taskStart.getTime()) && taskStart < dueDateObj;
+        });
+      }
 
       // 4. Call SchedulerService to replan
       const replanResult = await SchedulerService.replanSchedule(assignment, activeTasks, conflictingTasks);
@@ -126,9 +147,14 @@ export default {
     complexity: assignment.complexity ?? 'medium',
     rationale: assignment.rationale ?? ''
   });
-  // Scrub complexity from possibleTasks
+  // Scrub complexity from possibleTasks and convert duration to number
   const scrubbedTasks = Array.isArray(result.possibleTasks)
-    ? result.possibleTasks.map(({ title, duration }) => ({ title, duration }))
+    ? result.possibleTasks.map(({ title, duration }) => ({
+        title,
+        duration: typeof duration === 'string' ?
+          (duration.match(/\d+(\.\d+)?/) ? parseFloat(duration.match(/\d+(\.\d+)?/)[0]) : 0)
+          : duration
+      }))
     : [];
   console.log('AssignmentService: Scrubbed task plans:', scrubbedTasks);
   return scrubbedTasks;
