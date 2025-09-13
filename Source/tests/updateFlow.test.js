@@ -33,25 +33,28 @@ describe('Assignment Update/Replan Flow', () => {
     initialTasks = scheduleResult.dbTasks;
   }, 60000);
 
-//   it('marks one task as completed and triggers replan on due_date change', async () => {
-//     // Mark Task 1 as completed
-//     await db.Task.update({ status: 'completed' }, { where: { id: initialTasks[0].id } });
+  it('marks one task as completed and triggers replan on due_date change', async () => {
+    // Mark Task 1 as completed
+    await db.Task.update({ status: 'completed' }, { where: { id: initialTasks[0].id } });
 
-//     // Change due_date to one day later
-//     const newDueDate = '2025-09-16T23:59:00.000Z';
-//     const result = await AssignmentService.updateAssignment(assignment.id, { due_date: newDueDate });
+    // Change due_date to one day later
+    const newDueDate = '2025-09-16T23:59:00.000Z';
+    const result = await AssignmentService.updateAssignment(assignment.id, { due_date: newDueDate });
 
-//     // Ensure due_date is compared as string
-//     expect(new Date(result.updatedAssignment.due_date).toISOString()).toBe(newDueDate);
-//     expect(Array.isArray(result.updatedTasks)).toBe(true);
-//     expect(result.updatedTasks.length).toBeGreaterThanOrEqual(1);
-//     expect(result.warnings).toBeDefined();
+    // Ensure due_date is compared as string
+    expect(new Date(result.updatedAssignment.due_date).toISOString()).toBe(newDueDate);
+    expect(Array.isArray(result.updatedTasks)).toBe(true);
+    expect(result.updatedTasks.length).toBeGreaterThanOrEqual(1);
+    expect(result.warnings).toBeDefined();
 
-//     // Check that only active tasks were updated
-//     const updatedTask = await db.Task.findByPk(initialTasks[1].id);
-//     expect(updatedTask.status).toBe('active');
-//     expect(updatedTask.planned_end).toBeTruthy();
-//   }, 60000);
+    // Check that new active tasks exist and have valid planned_end
+    const activeTasks = await db.Task.findAll({ where: { assignment_id: assignment.id, status: 'active' } });
+    expect(activeTasks.length).toBeGreaterThanOrEqual(1);
+    activeTasks.forEach(task => {
+      expect(task.status).toBe('active');
+      expect(task.planned_end).toBeTruthy();
+    });
+  }, 60000);
 
   it('triggers replan on priority change', async () => {
     // Change priority
