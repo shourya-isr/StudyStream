@@ -37,13 +37,13 @@ import PlannerAgent from './plannerAgent.js';
 import CalendarService from './calendarService.js';
 
 async function schedule(assignment, taskPlans) {
-  // Step 1: Get calendar data
+  // Step 1: Get unavailable slots from calendar
   console.log('SchedulerService: Received assignment:', assignment);
   console.log('SchedulerService: Received scrubbed task plans:', taskPlans);
-  const calendarData = await CalendarService.getAvailability(assignment.student_id);
-  console.log('SchedulerService: Received calendar data:', calendarData);
-  // Step 2: Pass full assignment details to PlannerAgent
-  const result = await PlannerAgent.plan(assignment, taskPlans, calendarData);
+  const unavailableSlots = await CalendarService.getAvailability(assignment.student_id);
+  console.log('SchedulerService: Received unavailable slots:', unavailableSlots);
+  // Step 2: Pass full assignment details and unavailable slots to PlannerAgent
+  const result = await PlannerAgent.plan(assignment, taskPlans, unavailableSlots);
   console.log('SchedulerService: PlannerAgent result:', result);
   return result;
 }

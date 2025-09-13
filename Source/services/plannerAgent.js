@@ -1,52 +1,62 @@
 // PlannerAgent: plans tasks using calendar data
+
+import 'dotenv/config';
 import { OpenAI } from 'openai';
 
 const openai = new OpenAI({ apiKey: process.env.OPEN_API_KEY_PAID });
 
-const PLANNER_PROMPT = `You are StudyStream’s Planner Agent. Your job is to take a set of assignment tasks (each with a title and estimated duration), the full assignment details (including due date), and a student’s calendar availability, and generate a personalized, actionable schedule for completing the assignment on time. Your output must be a strict JSON object in the following format:\n\n{\n  "scheduledTasks": [\n    {\n      "title": string,\n      "duration": number,\n      "planned_start": string, // ISO 8601 datetime\n      "planned_end": string    // ISO 8601 datetime\n    }\n  ],\n  "warnings": [string]\n}\n\nInstructions:\n- You must guarantee that NO scheduled task overlaps with any blocked or unavailable calendar slot.\n- Use only available calendar slots for scheduling; never schedule a task in a conflicting time.\n- If a task cannot be scheduled before the due date without conflicts, add a warning explaining why.\n- Do not include any commentary, explanation, or extra text—respond ONLY with the JSON object.\n- Your goal is to help students finish assignments on time, reduce stress, and provide a clear, actionable plan with zero conflicts.\n\nContext:\n- Students may procrastinate or fall behind; your plan should be realistic and adaptive.\n- Progress will be tracked and feedback given as students work.\n- The schedule should be easy to follow and update if needed.`;
+const assistantId = "asst_4Bp776ztrdeQp418C7Zr9sFQ";
+const instructions = `You are StudyStream's Planner Agent. Your job is to create a personalized, actionable schedule for a student to complete their assignment on time.\n\nYour output must be a strict JSON object in this format:\n{\n  scheduledTasks: [\n    {\n      title: string,\n      duration: number,\n      planned_start: string, // ISO 8601 datetime\n      planned_end: string    // ISO 8601 datetime\n    }\n  ],\n  warnings: [string]\n}\n\nScheduling Rules:\n- You must NEVER schedule any task during any unavailable slot, which includes blocked slots and all calendar events, regardless of priority.\n- Unavailable slots are provided as an array of objects: { start, end, summary } in ISO 8601 format.\n- Scheduled tasks must fit entirely within available time slots.\n- Any overlap (even partial) with an unavailable slot is strictly forbidden.\n- No single scheduled task can be less than 30 minutes in duration.\n- If no available slot is long enough for a task, split the task or add a warning.\n- If a task cannot be scheduled before the due date, add a warning explaining why.\n\nOutput Rules:\n- Respond ONLY with the JSON object.\n- Do NOT include any explanation, commentary, or extra text.\n\nGoal:\n- Help students finish assignments on time, reduce stress, and provide a clear, actionable plan with zero conflicts.\n- The schedule must be easy to follow and update if needed.`;
 
 async function plan(assignment, taskPlans, calendarData) {
   // Prepare input for the assistant
   const input = {
     assignment,
     tasks: taskPlans,
-    calendar: calendarData
+    unavailableSlots: calendarData
   };
 
-  // Compose message for OpenAI
-  const messages = [
-    {
-      role: 'system',
-      content: PLANNER_PROMPT
-    },
-    {
-      role: 'user',
-      content: `Assignment: ${JSON.stringify(input.assignment)}\nTasks: ${JSON.stringify(input.tasks)}\nCalendar: ${JSON.stringify(input.calendar)}`
-    }
-  ];
-
-  // Call OpenAI API
-  const response = await openai.chat.completions.create({
-  model: 'gpt-4-turbo',
-    messages,
-    temperature: 0.4,
-    max_tokens: 1024
+  // Step 1: Create thread with message
+  const thread = await openai.beta.threads.create({
+    messages: [
+      {
+        role: "user",
+        content: `Assignment: ${JSON.stringify(input.assignment)}\nTasks: ${JSON.stringify(input.tasks)}\nUnavailableSlots: ${JSON.stringify(input.unavailableSlots)}`
+      }
+    ]
   });
 
-  // Debug: print raw model output
-  console.log('PlannerAgent raw model output:', response.choices[0].message.content);
+  // Step 2: Create run and get output
+  const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+    assistant_id: assistantId,
+    instructions,
+    model: "gpt-4.1-nano"
+  });
 
-  // Parse and validate response
-  let json;
-  try {
-    json = JSON.parse(response.choices[0].message.content);
-  } catch (e) {
-    throw new Error('PlannerAgent response was not valid JSON: ' + response.choices[0].message.content);
+  const messages = await openai.beta.threads.messages.list(thread.id, {
+    run_id: run.id,
+  });
+
+  const message = messages.data.pop();
+  if (message && message.content[0].type === "text") {
+    // Expecting ONLY JSON, no extra text
+    let json;
+    try {
+      json = JSON.parse(message.content[0].text.value);
+    } catch (e) {
+      throw new Error("PlannerAgent response was not valid JSON: " + message.content[0].text.value);
+    }
+    // Validate schema
+    if (
+      Array.isArray(json.scheduledTasks) &&
+      Array.isArray(json.warnings)
+    ) {
+      return json;
+    } else {
+      throw new Error("PlannerAgent response JSON does not match required schema: " + JSON.stringify(json));
+    }
   }
-  if (!Array.isArray(json.scheduledTasks) || !Array.isArray(json.warnings)) {
-    throw new Error('PlannerAgent response JSON does not match required schema: ' + JSON.stringify(json));
-  }
-  return json;
+  throw new Error("No valid response from assistant");
 }
 
 export default { plan };
