@@ -11,7 +11,7 @@ module.exports = {
       priority: { type: Sequelize.ENUM('low', 'medium', 'high'), defaultValue: 'medium' },
       media: { type: Sequelize.STRING },
       estimatedhours: { type: Sequelize.INTEGER },
-      complexity: { type: Sequelize.ENUM('easy', 'moderate', 'hard'), defaultValue: 'moderate' },
+  complexity: { type: Sequelize.ENUM('low', 'medium', 'high'), defaultValue: 'medium' },
       status: { type: Sequelize.ENUM('active', 'cancelled', 'deleted'), defaultValue: 'active' },
       created_at: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
       updated_at: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },

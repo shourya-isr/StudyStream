@@ -25,7 +25,7 @@ describe('Assignment API', () => {
         priority: 'high',
   media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/Maths Test.pdf',
         estimatedhours: 120,
-        complexity: 'hard',
+  complexity: 'high',
         status: 'active'
       });
     expect(res.statusCode).toBe(201);

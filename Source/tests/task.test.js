@@ -27,7 +27,7 @@ describe('Task API', () => {
         priority: 'medium', // ENUM: 'low', 'medium', 'high'
         media: '',
         estimatedhours: 60,
-        complexity: 'moderate', // ENUM: 'easy', 'moderate', 'hard'
+  complexity: 'medium', // ENUM: 'low', 'medium', 'high'
         status: 'active' // ENUM: 'active', 'cancelled', 'deleted'
       });
   assignmentId = res.body.assignment ? res.body.assignment.id : res.body.id;

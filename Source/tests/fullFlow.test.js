@@ -3,16 +3,15 @@ import assignmentService from '../services/assignmentService.js';
 import db from '../models/index.js';
 
 const TEST_ASSIGNMENT = {
-  student_id: 1,
-  title: 'Full Flow Assignment',
+  student_id: 3,
+  title: 'Homework',
   description: 'Test full workflow',
-  course: 'Math 101',
-  due_date: '2025-09-18',
+  course: '123',
+  due_date: '2025-09-19',
   priority: 'high',
-  media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/Maths Test.pdf',
-  estimatedhours: 20,
-  complexity: 'hard',
-  status: 'active'
+  media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+  status: 'active',
+  rationale: ''
 };
 
 describe('AssignmentService Full Flow', () => {

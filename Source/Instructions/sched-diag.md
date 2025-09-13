@@ -26,28 +26,37 @@ sequenceDiagram
 
 ---
 
+
 ## 2. Replan on Update
 
-![Scheduler Diagram 2](replan_on_update.svg)
+![Scheduler Diagram 2](Update_Replan_v2.svg)
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant AS as "Assignment Service"
-    participant SCH as "Scheduler Service"
+    participant User
+    participant AssignmentController
+    participant AssignmentService
     participant DB as "PostgreSQL"
+    participant SchedulerService
+    participant PlannerAgent
     participant SV as "Schedule Versions"
 
-    AS->>DB: SELECT "Assignment + completed vs future tasks"
-    AS->>AS: remaining = new_est - actual_logged
-    AS->>DB: SELECT "Other tasks that may conflict"
-    AS->>SCH: replanRemaining(remaining, constraints, futureTasks, otherTasks)
-    SCH->>SCH: minimizeChanges() + honorCaps() + resolveConflicts()
-    SCH-->>AS: TaskDiff {moved[], resized[], created[], deleted[], warnings[]}
-    AS->>DB: APPLY TaskDiff to "Task" table (future tasks only)
-    AS->>DB: UPDATE "Assignment" (new due/estimate, version++)
-    AS->>SV: INSERT "ScheduleVersion" {cause:"update", diff:TaskDiff}
-    AS-->>AS: Return {updatedAssignment, updatedTasks, scheduleVersionId, warnings}
+    User->>AssignmentController: PATCH /assignments/{id} (new due date, priority, etc.)
+    AssignmentController->>AssignmentService: updateAssignment(id, newData)
+    AssignmentService->>DB: UPDATE "Assignment" (metadata)
+    AssignmentService->>DB: SELECT "Assignment + completed vs future tasks"
+    AssignmentService->>DB: SELECT "Other tasks that may conflict"
+    AssignmentService->>SchedulerService: replanSchedule(assignment, activeTasks, conflictingTasks)
+    SchedulerService->>SchedulerService: Fetch calendar ICS, parse unavailable slots
+    SchedulerService->>PlannerAgent: Plan updated tasks (avoid conflicts, honor constraints)
+    PlannerAgent-->>SchedulerService: Return {updatedTasks, warnings}
+    SchedulerService-->>AssignmentService: Return {updatedTasks, warnings}
+    AssignmentService->>DB: APPLY updatedTasks to "Task" table (active tasks only)
+    AssignmentService->>DB: UPDATE "Assignment" (new due/estimate, version++)
+    AssignmentService->>SV: INSERT "ScheduleVersion" {cause:"update", diff:TaskDiff}
+    AssignmentService-->>AssignmentController: Return {updatedAssignment, updatedTasks, scheduleVersionId, warnings}
+    AssignmentController-->>User: Respond with updated assignment and tasks
 ```
 
 ---

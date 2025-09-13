@@ -9,8 +9,9 @@ export default (sequelize, DataTypes) => {
   due_date: { type: DataTypes.DATE, allowNull: false },
   priority: { type: DataTypes.ENUM('low', 'medium', 'high'), defaultValue: 'medium' },
   media: { type: DataTypes.STRING }, // absolute file path for image/pdf
-  estimatedhours: { type: DataTypes.INTEGER },
-  complexity: { type: DataTypes.ENUM('easy', 'moderate', 'hard'), defaultValue: 'moderate' },
+  estimatedhours: { type: DataTypes.FLOAT, defaultValue: 0 },
+  rationale: { type: DataTypes.TEXT },
+  complexity: { type: DataTypes.ENUM('low', 'medium', 'high'), defaultValue: 'medium' },
   status: { type: DataTypes.ENUM('active', 'cancelled', 'deleted'), defaultValue: 'active' },
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },

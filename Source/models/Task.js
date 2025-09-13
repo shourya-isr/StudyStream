@@ -10,7 +10,7 @@ export default (sequelize, DataTypes) => {
     actual_start: { type: DataTypes.DATE },
     actual_end: { type: DataTypes.DATE },
   priority: { type: DataTypes.ENUM('low', 'medium', 'high'), defaultValue: 'medium' },
-    status: { type: DataTypes.STRING, defaultValue: 'pending' },
+  status: { type: DataTypes.ENUM('active', 'completed', 'deleted'), defaultValue: 'active' },
     created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     updated_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   }, {

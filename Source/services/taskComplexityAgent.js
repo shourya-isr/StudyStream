@@ -7,7 +7,7 @@ const openai = new OpenAI({ apiKey: process.env.OPEN_API_KEY_PAID });
 async function analyze(pdfPath, question) {
 // Use provided assistant ID and strict instructions
   const assistantId = "asst_4Bp776ztrdeQp418C7Zr9sFQ";
-  const instructions = `You are StudyStream's Task Complexity Agent. Your job is to analyze a PDF assignment and break it down into actionable, manageable steps for scheduling and progress tracking. For each assignment, respond ONLY with a JSON object in the following format:\n{\n  totalEstimatedDuration: number,\n  overallComplexity: 'low' | 'medium' | 'high',\n  possibleTasks: [\n    { title: string, duration: number, complexity: 'low' | 'medium' | 'high' }\n  ]\n}\n- totalEstimatedDuration: sum of all task durations in number of hours\n- overallComplexity: rate the assignment as 'low', 'medium', or 'high' based on the number, difficulty, and length of tasks\n- possibleTasks: break the assignment into clear, actionable steps, each with a short title, estimated duration (number of hours & minutes), and complexity\nThis output will be used for automated scheduling and progress tracking. Do NOT include any explanation, commentary, or extra text. Respond ONLY with the JSON object.`;
+  const instructions = `You are StudyStream's Task Complexity Agent. Your job is to analyze a PDF assignment and break it down into actionable, manageable steps for scheduling and progress tracking. For each assignment, respond ONLY with a JSON object in the following format:\n{\n  totalEstimatedDuration: number,\n  overallComplexity: 'low' | 'medium' | 'high',\n  possibleTasks: [\n    { title: string, duration: number, complexity: 'low' | 'medium' | 'high' }\n  ],\n  rationale: string\n}\n- totalEstimatedDuration: sum of all task durations in number of hours\n- overallComplexity: rate the assignment as 'low', 'medium', or 'high' based on the number, difficulty, and length of tasks\n- possibleTasks: break the assignment into clear, actionable steps, each with a short title, estimated duration (number of hours & minutes), and complexity\n- rationale: explain why you chose the estimated duration and complexity, considering assignment type, grade level, and any other relevant factors.\nThis output will be used for automated scheduling and progress tracking. Do NOT include any explanation, commentary, or extra text. Respond ONLY with the JSON object.`;
   const model = "gpt-4.1-nano";
 
   // Step 1: Upload file for message attachment
@@ -52,6 +52,7 @@ async function analyze(pdfPath, question) {
       typeof json.totalEstimatedDuration === "number" &&
       ["low", "medium", "high"].includes(json.overallComplexity) &&
       Array.isArray(json.possibleTasks) &&
+      typeof json.rationale === "string" &&
       json.possibleTasks.every(
         t => typeof t.title === "string" &&
              typeof t.duration === "number" &&

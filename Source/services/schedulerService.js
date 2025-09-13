@@ -36,14 +36,22 @@ function minimizeChanges(currentBlocks, newBlocks) {
 import PlannerAgent from './plannerAgent.js';
 import CalendarService from './calendarService.js';
 
-async function schedule(assignment, taskPlans) {
+async function schedule(assignment, taskPlans, earliestStart) {
   // Step 1: Get unavailable slots from calendar
   console.log('SchedulerService: Received assignment:', assignment);
   console.log('SchedulerService: Received scrubbed task plans:', taskPlans);
-  const unavailableSlots = await CalendarService.getAvailability(assignment.student_id);
+      const unavailableSlots = await CalendarService.getAvailability(assignment.student_id);
+      // assignment, scrubbedTaskPlans, earliestStart are passed as arguments
+      const plannerInput = {
+        assignment,
+        scrubbedTaskPlans: taskPlans,
+        unavailableSlots,
+        earliestStart
+        // Add conflictingTasks if available
+      };
   console.log('SchedulerService: Received unavailable slots:', unavailableSlots);
   // Step 2: Pass full assignment details and unavailable slots to PlannerAgent
-  const result = await PlannerAgent.plan(assignment, taskPlans, unavailableSlots);
+    const result = await PlannerAgent.plan(plannerInput);
   console.log('SchedulerService: PlannerAgent result:', result);
   return result;
 }
@@ -75,7 +83,7 @@ export default {
         planned_start: assignment.due_date,
         planned_end: assignment.due_date,
         priority: assignment.priority || 'medium',
-        status: 'pending',
+  status: 'active',
       }
     ];
     // Step 5: Warnings (stub)
