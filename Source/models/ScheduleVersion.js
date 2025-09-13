@@ -6,6 +6,7 @@ export default (sequelize, DataTypes) => {
     version_number: { type: DataTypes.INTEGER, allowNull: false },
     cause: { type: DataTypes.STRING },
     diff: { type: DataTypes.JSON },
+    feedback: { type: DataTypes.STRING },
     created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   }, {
     tableName: 'schedule_versions',

@@ -23,5 +23,7 @@ router.use('/scheduler', scheduler);
 
 // ScheduleVersion routes
 router.use('/scheduleVersions', scheduleVersions);
+// Telemetry routes
+router.use('/telemetry', telemetry);
 
 export default router;

@@ -6,7 +6,7 @@ import TaskComplexityAgent from './taskComplexityAgent.js';
 import SchedulerService from './schedulerService.js';
 
 // Helper to create a new ScheduleVersion
-async function createScheduleVersion(assignmentId, cause, diff, warnings) {
+async function createScheduleVersion(assignmentId, cause, diff, warnings, feedback = null) {
   if (!db.ScheduleVersion) return null;
   // Get latest version_number for this assignment
   const lastVersion = await db.ScheduleVersion.findOne({
@@ -19,11 +19,73 @@ async function createScheduleVersion(assignmentId, cause, diff, warnings) {
     version_number: nextVersion,
     cause,
     diff: JSON.stringify(diff),
-    warnings: JSON.stringify(warnings)
+    warnings: JSON.stringify(warnings),
+    feedback
   });
 }
 
 export default {
+  // ...existing code...
+  async notifyTaskComplete(taskId, actualDuration, feedback = 'efficient') {
+    // Update task status to completed
+    const task = await db.Task.findByPk(taskId);
+    if (!task) throw new Error('Task not found');
+    await task.update({ status: 'completed' });
+    // Check if all tasks for assignment are completed
+    const assignment = await db.Assignment.findByPk(task.assignment_id);
+    const allTasks = await db.Task.findAll({ where: { assignment_id: assignment.id } });
+    const allCompleted = allTasks.every(t => t.status === 'completed');
+    if (allCompleted) await assignment.update({ status: 'completed' });
+    // Gather future and conflicting tasks
+    const activeTasks = allTasks.filter(t => t.status === 'active');
+    const studentAssignments = await db.Assignment.findAll({ where: { student_id: assignment.student_id } });
+    const assignmentIds = studentAssignments.map(a => a.id);
+    const allStudentTasks = await db.Task.findAll({ where: { assignment_id: assignmentIds } });
+    let conflictingTasks = [];
+    let dueDateObj = assignment.due_date;
+    if (typeof dueDateObj === 'string') dueDateObj = new Date(Date.parse(dueDateObj));
+    if (dueDateObj instanceof Date && !isNaN(dueDateObj.getTime())) {
+      conflictingTasks = allStudentTasks.filter(task => {
+        if (!task.planned_start) return false;
+        const taskStart = typeof task.planned_start === 'string' ? new Date(task.planned_start) : task.planned_start;
+        return taskStart instanceof Date && !isNaN(taskStart.getTime()) && taskStart < dueDateObj;
+      });
+    }
+    // Call SchedulerService to replan with feedback
+  const replanResult = await SchedulerService.replanSchedule(assignment, activeTasks, conflictingTasks, feedback);
+    // Record new ScheduleVersion
+    await createScheduleVersion(assignment.id, 'telemetry-complete', replanResult.scheduledTasks || [], replanResult.warnings || [], feedback);
+    return replanResult;
+  },
+
+  async notifyTaskPaused(taskId, actualDuration, feedback = 'paused') {
+    // Update task status to paused
+    const task = await db.Task.findByPk(taskId);
+    if (!task) throw new Error('Task not found');
+    await task.update({ status: 'paused' });
+    // Gather future and conflicting tasks
+    const assignment = await db.Assignment.findByPk(task.assignment_id);
+    const allTasks = await db.Task.findAll({ where: { assignment_id: assignment.id } });
+    const activeTasks = allTasks.filter(t => t.status === 'active');
+    const studentAssignments = await db.Assignment.findAll({ where: { student_id: assignment.student_id } });
+    const assignmentIds = studentAssignments.map(a => a.id);
+    const allStudentTasks = await db.Task.findAll({ where: { assignment_id: assignmentIds } });
+    let conflictingTasks = [];
+    let dueDateObj = assignment.due_date;
+    if (typeof dueDateObj === 'string') dueDateObj = new Date(Date.parse(dueDateObj));
+    if (dueDateObj instanceof Date && !isNaN(dueDateObj.getTime())) {
+      conflictingTasks = allStudentTasks.filter(task => {
+        if (!task.planned_start) return false;
+        const taskStart = typeof task.planned_start === 'string' ? new Date(task.planned_start) : task.planned_start;
+        return taskStart instanceof Date && !isNaN(taskStart.getTime()) && taskStart < dueDateObj;
+      });
+    }
+    // Call SchedulerService to replan with feedback
+  const replanResult = await SchedulerService.replanSchedule(assignment, activeTasks, conflictingTasks, feedback);
+    // Record new ScheduleVersion
+    await createScheduleVersion(assignment.id, 'telemetry-paused', replanResult.scheduledTasks || [], replanResult.warnings || [], feedback);
+    return replanResult;
+  },
   async updateAssignment(id, data) {
     // 1. Update assignment metadata
     const assignment = await db.Assignment.findByPk(id);
@@ -69,7 +131,7 @@ export default {
       }
 
       // 4. Call SchedulerService to replan
-      const replanResult = await SchedulerService.replanSchedule(assignment, activeTasks, conflictingTasks);
+  const replanResult = await SchedulerService.replanSchedule(assignment, activeTasks, conflictingTasks);
       updatedTasks = replanResult.scheduledTasks || [];
       warnings = replanResult.warnings || [];
 

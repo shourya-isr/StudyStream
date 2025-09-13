@@ -1,0 +1,2080 @@
+(node:81606) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+  console.log
+    Executing (default): TRUNCATE "work_sessions" CASCADE
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): TRUNCATE "tasks" CASCADE
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): TRUNCATE "schedule_versions" CASCADE
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): TRUNCATE "assignments" CASCADE
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "assignments" ("id","student_id","title","description","course","due_date","priority","media","estimatedhours","rationale","complexity","status","created_at","updated_at") VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING "id","student_id","title","description","course","due_date","priority","media","estimatedhours","rationale","complexity","status","created_at","updated_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    TaskComplexityAgent: Parsed result: {
+      totalEstimatedDuration: 9.5,
+      overallComplexity: 'high',
+      possibleTasks: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 1.5,
+          complexity: 'medium'
+        },
+        {
+          title: 'Identify and outline the main case study details and questions',
+          duration: 1,
+          complexity: 'medium'
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 1,
+          complexity: 'medium'
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 2,
+          complexity: 'high'
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 2.5,
+          complexity: 'high'
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 1.5,
+          complexity: 'medium'
+        }
+      ],
+      rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.'
+    }
+
+      at analyze (services/taskComplexityAgent.js:62:15)
+
+  console.log
+    AssignmentService: TaskComplexityAgent result: {
+      totalEstimatedDuration: 9.5,
+      overallComplexity: 'high',
+      possibleTasks: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 1.5,
+          complexity: 'medium'
+        },
+        {
+          title: 'Identify and outline the main case study details and questions',
+          duration: 1,
+          complexity: 'medium'
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 1,
+          complexity: 'medium'
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 2,
+          complexity: 'high'
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 2.5,
+          complexity: 'high'
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 1.5,
+          complexity: 'medium'
+        }
+      ],
+      rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.'
+    }
+
+      at Object.analyzeMediaForTasks (services/assignmentService.js:197:11)
+
+  console.log
+    Estimated Hours:  9.5
+
+      at Object.analyzeMediaForTasks (services/assignmentService.js:198:11)
+
+  console.log
+    Assignment before update: {
+      estimatedhours: 9.5,
+      complexity: 'high',
+      created_at: 2025-09-13T21:12:59.051Z,
+      updated_at: 2025-09-13T21:12:59.052Z,
+      id: 100,
+      student_id: 3,
+      title: 'Homework',
+      description: 'Test full workflow telemetry',
+      course: '123',
+      due_date: 2025-09-19T00:00:00.000Z,
+      priority: 'high',
+      media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+      status: 'active',
+      rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.'
+    }
+
+      at Object.analyzeMediaForTasks (services/assignmentService.js:205:11)
+
+  console.log
+    Executing (default): UPDATE "assignments" SET "estimatedhours"=$1,"complexity"=$2,"rationale"=$3 WHERE "id" = $4
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    AssignmentService: Scrubbed task plans: [
+      { title: 'Read the entire assignment PDF thoroughly', duration: 1.5 },
+      {
+        title: 'Identify and outline the main case study details and questions',
+        duration: 1
+      },
+      {
+        title: 'Break down each question into key points and required analysis',
+        duration: 1
+      },
+      {
+        title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+        duration: 2
+      },
+      {
+        title: 'Draft responses for each question, focusing on clarity and completeness',
+        duration: 2.5
+      },
+      {
+        title: 'Review and refine answers for accuracy and coherence',
+        duration: 1.5
+      }
+    ]
+
+      at Object.analyzeMediaForTasks (services/assignmentService.js:221:11)
+
+  console.log
+    AssignmentService: Passing to SchedulerService: {
+      assignment: Assignment {
+        dataValues: {
+          estimatedhours: 9.5,
+          complexity: 'high',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z,
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          status: 'active',
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.'
+        },
+        _previousDataValues: {
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          status: 'active',
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          id: 100,
+          estimatedhours: 9.5,
+          complexity: 'high',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: true,
+          _schema: null,
+          _schemaDelimiter: '',
+          attributes: undefined,
+          include: undefined,
+          raw: undefined,
+          silent: undefined
+        },
+        isNewRecord: false
+      },
+      scrubbedTaskPlans: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 1.5
+        },
+        {
+          title: 'Identify and outline the main case study details and questions',
+          duration: 1
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 1
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 2
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 2.5
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 1.5
+        }
+      ]
+    }
+
+      at Object.scheduleTasksWithCalendar (services/assignmentService.js:226:13)
+
+  console.log
+    SchedulerService: Received assignment: {
+      id: 100,
+      title: 'Homework',
+      description: 'Test full workflow telemetry',
+      due_date: 2025-09-19T00:00:00.000Z,
+      estimatedhours: 9.5,
+      complexity: 'high',
+      priority: 'high',
+      course: '123'
+    }
+
+      at Object.schedule (services/schedulerService.js:51:11)
+
+  console.log
+    SchedulerService: Received scrubbed task plans: [
+      { title: 'Read the entire assignment PDF thoroughly', duration: 1.5 },
+      {
+        title: 'Identify and outline the main case study details and questions',
+        duration: 1
+      },
+      {
+        title: 'Break down each question into key points and required analysis',
+        duration: 1
+      },
+      {
+        title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+        duration: 2
+      },
+      {
+        title: 'Draft responses for each question, focusing on clarity and completeness',
+        duration: 2.5
+      },
+      {
+        title: 'Review and refine answers for accuracy and coherence',
+        duration: 1.5
+      }
+    ]
+
+      at Object.schedule (services/schedulerService.js:52:11)
+
+  console.log
+    SchedulerService: Received unavailable slots: [
+      {
+        start: '20250913T000000',
+        end: '20250914T000000',
+        summary: 'Blocked - All day'
+      },
+      {
+        start: '20250914T000000',
+        end: '20250914T110000',
+        summary: 'Blocked - Morning'
+      },
+      {
+        start: '20250913T060000',
+        end: '20250913T070000',
+        summary: 'Bi-weekly check-in'
+      },
+      {
+        start: '20250914T100000',
+        end: '20250914T140000',
+        summary: "Farmers' Market"
+      },
+      {
+        start: '20250915T094500',
+        end: '20250915T111500',
+        summary: 'Sales team lunch'
+      }
+    ]
+
+      at Object.schedule (services/schedulerService.js:64:11)
+
+  console.log
+    SchedulerService: Planner input: {
+      assignment: {
+        id: 100,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        due_date: 2025-09-19T00:00:00.000Z,
+        estimatedhours: 9.5,
+        complexity: 'high',
+        priority: 'high',
+        course: '123'
+      },
+      scrubbedTaskPlans: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 1.5
+        },
+        {
+          title: 'Identify and outline the main case study details and questions',
+          duration: 1
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 1
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 2
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 2.5
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 1.5
+        }
+      ],
+      unavailableSlots: [
+        {
+          start: '20250913T000000',
+          end: '20250914T000000',
+          summary: 'Blocked - All day'
+        },
+        {
+          start: '20250914T000000',
+          end: '20250914T110000',
+          summary: 'Blocked - Morning'
+        },
+        {
+          start: '20250913T060000',
+          end: '20250913T070000',
+          summary: 'Bi-weekly check-in'
+        },
+        {
+          start: '20250914T100000',
+          end: '20250914T140000',
+          summary: "Farmers' Market"
+        },
+        {
+          start: '20250915T094500',
+          end: '20250915T111500',
+          summary: 'Sales team lunch'
+        }
+      ],
+      earliestStart: '2025-09-13T21:13:14.198Z'
+    }
+
+      at Object.schedule (services/schedulerService.js:65:11)
+
+  console.log
+    SchedulerService: PlannerAgent result: {
+      scheduledTasks: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 1.5,
+          planned_start: '2025-09-13T21:13:14.198Z',
+          planned_end: '2025-09-13T22:43:14.198Z'
+        },
+        {
+          title: 'Identify and outline the main case study details and questions',
+          duration: 1,
+          planned_start: '2025-09-13T22:43:14.198Z',
+          planned_end: '2025-09-13T23:43:14.198Z'
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 1,
+          planned_start: '2025-09-13T23:43:14.198Z',
+          planned_end: '2025-09-14T00:43:14.198Z'
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 2,
+          planned_start: '2025-09-14T00:43:14.198Z',
+          planned_end: '2025-09-14T02:43:14.198Z'
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 2.5,
+          planned_start: '2025-09-14T02:43:14.198Z',
+          planned_end: '2025-09-14T05:13:14.198Z'
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 1.5,
+          planned_start: '2025-09-14T05:13:14.198Z',
+          planned_end: '2025-09-14T06:43:14.198Z'
+        }
+      ],
+      warnings: []
+    }
+
+      at Object.schedule (services/schedulerService.js:68:11)
+
+  console.log
+    Executing (default): INSERT INTO "tasks" ("id","assignment_id","title","description","planned_start","planned_end","priority","status","created_at","updated_at") VALUES (DEFAULT,100,'Read the entire assignment PDF thoroughly','','2025-09-13 21:13:14.198 +00:00','2025-09-13 22:43:14.198 +00:00','high','active','2025-09-13 21:13:22.186 +00:00','2025-09-13 21:13:22.186 +00:00'),(DEFAULT,100,'Identify and outline the main case study details and questions','','2025-09-13 22:43:14.198 +00:00','2025-09-13 23:43:14.198 +00:00','high','active','2025-09-13 21:13:22.186 +00:00','2025-09-13 21:13:22.186 +00:00'),(DEFAULT,100,'Break down each question into key points and required analysis','','2025-09-13 23:43:14.198 +00:00','2025-09-14 00:43:14.198 +00:00','high','active','2025-09-13 21:13:22.186 +00:00','2025-09-13 21:13:22.186 +00:00'),(DEFAULT,100,'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)','','2025-09-14 00:43:14.198 +00:00','2025-09-14 02:43:14.198 +00:00','high','active','2025-09-13 21:13:22.186 +00:00','2025-09-13 21:13:22.186 +00:00'),(DEFAULT,100,'Draft responses for each question, focusing on clarity and completeness','','2025-09-14 02:43:14.198 +00:00','2025-09-14 05:13:14.198 +00:00','high','active','2025-09-13 21:13:22.186 +00:00','2025-09-13 21:13:22.186 +00:00'),(DEFAULT,100,'Review and refine answers for accuracy and coherence','','2025-09-14 05:13:14.198 +00:00','2025-09-14 06:43:14.198 +00:00','high','active','2025-09-13 21:13:22.186 +00:00','2025-09-13 21:13:22.186 +00:00') RETURNING "id","assignment_id","title","description","planned_start","planned_end","actual_start","actual_end","priority","status","created_at","updated_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100 ORDER BY "ScheduleVersion"."version_number" DESC LIMIT 1;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "schedule_versions" ("id","assignment_id","version_number","cause","diff","feedback","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5,$6) RETURNING "id","assignment_id","version_number","cause","diff","feedback","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" = 100 ORDER BY "Task"."id" ASC;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "work_sessions" ("id","task_id","student_id","start_time","notes","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING "id","task_id","student_id","start_time","end_time","duration","notes","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): UPDATE "work_sessions" SET "end_time"=$1,"duration"=$2 WHERE "id" = $3
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."id" = 333;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): UPDATE "tasks" SET "status"=$1 WHERE "id" = $2
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "student_id", "title", "description", "course", "due_date", "priority", "media", "estimatedhours", "rationale", "complexity", "status", "created_at", "updated_at" FROM "assignments" AS "Assignment" WHERE "Assignment"."id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "student_id", "title", "description", "course", "due_date", "priority", "media", "estimatedhours", "rationale", "complexity", "status", "created_at", "updated_at" FROM "assignments" AS "Assignment" WHERE "Assignment"."student_id" = 3;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" IN (100);
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    SchedulerService: Received assignment: Assignment {
+      dataValues: {
+        id: 100,
+        student_id: 3,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        course: '123',
+        due_date: 2025-09-19T00:00:00.000Z,
+        priority: 'high',
+        media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+        estimatedhours: 9.5,
+        rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+        complexity: 'high',
+        status: 'active',
+        created_at: 2025-09-13T21:12:59.051Z,
+        updated_at: 2025-09-13T21:12:59.052Z
+      },
+      _previousDataValues: {
+        id: 100,
+        student_id: 3,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        course: '123',
+        due_date: 2025-09-19T00:00:00.000Z,
+        priority: 'high',
+        media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+        estimatedhours: 9.5,
+        rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+        complexity: 'high',
+        status: 'active',
+        created_at: 2025-09-13T21:12:59.051Z,
+        updated_at: 2025-09-13T21:12:59.052Z
+      },
+      uniqno: 1,
+      _changed: Set(0) {},
+      _options: {
+        isNewRecord: false,
+        _schema: null,
+        _schemaDelimiter: '',
+        raw: true,
+        attributes: [
+          'id',             'student_id',
+          'title',          'description',
+          'course',         'due_date',
+          'priority',       'media',
+          'estimatedhours', 'rationale',
+          'complexity',     'status',
+          'created_at',     'updated_at'
+        ]
+      },
+      isNewRecord: false
+    }
+
+      at schedule (services/schedulerService.js:51:11)
+
+  console.log
+    SchedulerService: Received scrubbed task plans: [
+      Task {
+        dataValues: {
+          id: 334,
+          assignment_id: 100,
+          title: 'Identify and outline the main case study details and questions',
+          description: '',
+          planned_start: 2025-09-13T22:43:14.198Z,
+          planned_end: 2025-09-13T23:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 334,
+          assignment_id: 100,
+          title: 'Identify and outline the main case study details and questions',
+          description: '',
+          planned_start: 2025-09-13T22:43:14.198Z,
+          planned_end: 2025-09-13T23:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 335,
+          assignment_id: 100,
+          title: 'Break down each question into key points and required analysis',
+          description: '',
+          planned_start: 2025-09-13T23:43:14.198Z,
+          planned_end: 2025-09-14T00:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 335,
+          assignment_id: 100,
+          title: 'Break down each question into key points and required analysis',
+          description: '',
+          planned_start: 2025-09-13T23:43:14.198Z,
+          planned_end: 2025-09-14T00:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 336,
+          assignment_id: 100,
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          description: '',
+          planned_start: 2025-09-14T00:43:14.198Z,
+          planned_end: 2025-09-14T02:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 336,
+          assignment_id: 100,
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          description: '',
+          planned_start: 2025-09-14T00:43:14.198Z,
+          planned_end: 2025-09-14T02:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 337,
+          assignment_id: 100,
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          description: '',
+          planned_start: 2025-09-14T02:43:14.198Z,
+          planned_end: 2025-09-14T05:13:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 337,
+          assignment_id: 100,
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          description: '',
+          planned_start: 2025-09-14T02:43:14.198Z,
+          planned_end: 2025-09-14T05:13:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 338,
+          assignment_id: 100,
+          title: 'Review and refine answers for accuracy and coherence',
+          description: '',
+          planned_start: 2025-09-14T05:13:14.198Z,
+          planned_end: 2025-09-14T06:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 338,
+          assignment_id: 100,
+          title: 'Review and refine answers for accuracy and coherence',
+          description: '',
+          planned_start: 2025-09-14T05:13:14.198Z,
+          planned_end: 2025-09-14T06:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      }
+    ]
+
+      at schedule (services/schedulerService.js:52:11)
+
+  console.log
+    SchedulerService: Received unavailable slots: [
+      {
+        start: '20250913T000000',
+        end: '20250914T000000',
+        summary: 'Blocked - All day'
+      },
+      {
+        start: '20250914T000000',
+        end: '20250914T110000',
+        summary: 'Blocked - Morning'
+      },
+      {
+        start: '20250913T060000',
+        end: '20250913T070000',
+        summary: 'Bi-weekly check-in'
+      },
+      {
+        start: '20250914T100000',
+        end: '20250914T140000',
+        summary: "Farmers' Market"
+      },
+      {
+        start: '20250915T094500',
+        end: '20250915T111500',
+        summary: 'Sales team lunch'
+      }
+    ]
+
+      at schedule (services/schedulerService.js:64:11)
+
+  console.log
+    SchedulerService: Planner input: {
+      assignment: Assignment {
+        dataValues: {
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          estimatedhours: 9.5,
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          complexity: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        _previousDataValues: {
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          estimatedhours: 9.5,
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          complexity: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      scrubbedTaskPlans: [
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        }
+      ],
+      unavailableSlots: [
+        {
+          start: '20250913T000000',
+          end: '20250914T000000',
+          summary: 'Blocked - All day'
+        },
+        {
+          start: '20250914T000000',
+          end: '20250914T110000',
+          summary: 'Blocked - Morning'
+        },
+        {
+          start: '20250913T060000',
+          end: '20250913T070000',
+          summary: 'Bi-weekly check-in'
+        },
+        {
+          start: '20250914T100000',
+          end: '20250914T140000',
+          summary: "Farmers' Market"
+        },
+        {
+          start: '20250915T094500',
+          end: '20250915T111500',
+          summary: 'Sales team lunch'
+        }
+      ],
+      earliestStart: '2025-09-13T21:13:22.238Z',
+      conflictingTasks: [
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        }
+      ],
+      mode: 'replan',
+      feedback: 'efficient'
+    }
+
+      at schedule (services/schedulerService.js:65:11)
+
+  console.log
+    SchedulerService: PlannerAgent result: {
+      scheduledTasks: [
+        {
+          title: 'Identify and outline the main case study details and questions',
+          duration: 60,
+          planned_start: '2025-09-13T21:13:22.238Z',
+          planned_end: '2025-09-13T22:13:22.238Z'
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 60,
+          planned_start: '2025-09-13T22:13:22.238Z',
+          planned_end: '2025-09-13T23:13:22.238Z'
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 120,
+          planned_start: '2025-09-13T23:13:22.238Z',
+          planned_end: '2025-09-14T01:13:22.238Z'
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 150,
+          planned_start: '2025-09-14T01:13:22.238Z',
+          planned_end: '2025-09-14T03:43:22.238Z'
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 90,
+          planned_start: '2025-09-14T03:43:22.238Z',
+          planned_end: '2025-09-14T05:13:22.238Z'
+        }
+      ],
+      warnings: [
+        'Some tasks have been rescheduled to avoid conflicts with unavailable slots and conflicting tasks.',
+        'The schedule ensures all activities are at least 30 minutes and start no earlier than the earliest start time.',
+        'Remaining potential overlaps or conflicts are minimized; however, further adjustments may be necessary if new constraints arise.'
+      ]
+    }
+
+      at schedule (services/schedulerService.js:68:11)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100 ORDER BY "ScheduleVersion"."version_number" DESC LIMIT 1;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "schedule_versions" ("id","assignment_id","version_number","cause","diff","feedback","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5,$6) RETURNING "id","assignment_id","version_number","cause","diff","feedback","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."id" = 333;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "work_sessions" ("id","task_id","student_id","start_time","notes","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING "id","task_id","student_id","start_time","end_time","duration","notes","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): UPDATE "work_sessions" SET "end_time"=$1,"duration"=$2 WHERE "id" = $3
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."id" = 334;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): UPDATE "tasks" SET "status"=$1 WHERE "id" = $2
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "student_id", "title", "description", "course", "due_date", "priority", "media", "estimatedhours", "rationale", "complexity", "status", "created_at", "updated_at" FROM "assignments" AS "Assignment" WHERE "Assignment"."id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "student_id", "title", "description", "course", "due_date", "priority", "media", "estimatedhours", "rationale", "complexity", "status", "created_at", "updated_at" FROM "assignments" AS "Assignment" WHERE "Assignment"."student_id" = 3;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" IN (100);
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    SchedulerService: Received assignment: Assignment {
+      dataValues: {
+        id: 100,
+        student_id: 3,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        course: '123',
+        due_date: 2025-09-19T00:00:00.000Z,
+        priority: 'high',
+        media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+        estimatedhours: 9.5,
+        rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+        complexity: 'high',
+        status: 'active',
+        created_at: 2025-09-13T21:12:59.051Z,
+        updated_at: 2025-09-13T21:12:59.052Z
+      },
+      _previousDataValues: {
+        id: 100,
+        student_id: 3,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        course: '123',
+        due_date: 2025-09-19T00:00:00.000Z,
+        priority: 'high',
+        media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+        estimatedhours: 9.5,
+        rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+        complexity: 'high',
+        status: 'active',
+        created_at: 2025-09-13T21:12:59.051Z,
+        updated_at: 2025-09-13T21:12:59.052Z
+      },
+      uniqno: 1,
+      _changed: Set(0) {},
+      _options: {
+        isNewRecord: false,
+        _schema: null,
+        _schemaDelimiter: '',
+        raw: true,
+        attributes: [
+          'id',             'student_id',
+          'title',          'description',
+          'course',         'due_date',
+          'priority',       'media',
+          'estimatedhours', 'rationale',
+          'complexity',     'status',
+          'created_at',     'updated_at'
+        ]
+      },
+      isNewRecord: false
+    }
+
+      at schedule (services/schedulerService.js:51:11)
+
+  console.log
+    SchedulerService: Received scrubbed task plans: [
+      Task {
+        dataValues: {
+          id: 335,
+          assignment_id: 100,
+          title: 'Break down each question into key points and required analysis',
+          description: '',
+          planned_start: 2025-09-13T23:43:14.198Z,
+          planned_end: 2025-09-14T00:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 335,
+          assignment_id: 100,
+          title: 'Break down each question into key points and required analysis',
+          description: '',
+          planned_start: 2025-09-13T23:43:14.198Z,
+          planned_end: 2025-09-14T00:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 336,
+          assignment_id: 100,
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          description: '',
+          planned_start: 2025-09-14T00:43:14.198Z,
+          planned_end: 2025-09-14T02:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 336,
+          assignment_id: 100,
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          description: '',
+          planned_start: 2025-09-14T00:43:14.198Z,
+          planned_end: 2025-09-14T02:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 337,
+          assignment_id: 100,
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          description: '',
+          planned_start: 2025-09-14T02:43:14.198Z,
+          planned_end: 2025-09-14T05:13:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 337,
+          assignment_id: 100,
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          description: '',
+          planned_start: 2025-09-14T02:43:14.198Z,
+          planned_end: 2025-09-14T05:13:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 338,
+          assignment_id: 100,
+          title: 'Review and refine answers for accuracy and coherence',
+          description: '',
+          planned_start: 2025-09-14T05:13:14.198Z,
+          planned_end: 2025-09-14T06:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 338,
+          assignment_id: 100,
+          title: 'Review and refine answers for accuracy and coherence',
+          description: '',
+          planned_start: 2025-09-14T05:13:14.198Z,
+          planned_end: 2025-09-14T06:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      }
+    ]
+
+      at schedule (services/schedulerService.js:52:11)
+
+  console.log
+    SchedulerService: Received unavailable slots: [
+      {
+        start: '20250913T000000',
+        end: '20250914T000000',
+        summary: 'Blocked - All day'
+      },
+      {
+        start: '20250914T000000',
+        end: '20250914T110000',
+        summary: 'Blocked - Morning'
+      },
+      {
+        start: '20250913T060000',
+        end: '20250913T070000',
+        summary: 'Bi-weekly check-in'
+      },
+      {
+        start: '20250914T100000',
+        end: '20250914T140000',
+        summary: "Farmers' Market"
+      },
+      {
+        start: '20250915T094500',
+        end: '20250915T111500',
+        summary: 'Sales team lunch'
+      }
+    ]
+
+      at schedule (services/schedulerService.js:64:11)
+
+  console.log
+    SchedulerService: Planner input: {
+      assignment: Assignment {
+        dataValues: {
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          estimatedhours: 9.5,
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          complexity: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        _previousDataValues: {
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          estimatedhours: 9.5,
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          complexity: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      scrubbedTaskPlans: [
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        }
+      ],
+      unavailableSlots: [
+        {
+          start: '20250913T000000',
+          end: '20250914T000000',
+          summary: 'Blocked - All day'
+        },
+        {
+          start: '20250914T000000',
+          end: '20250914T110000',
+          summary: 'Blocked - Morning'
+        },
+        {
+          start: '20250913T060000',
+          end: '20250913T070000',
+          summary: 'Bi-weekly check-in'
+        },
+        {
+          start: '20250914T100000',
+          end: '20250914T140000',
+          summary: "Farmers' Market"
+        },
+        {
+          start: '20250915T094500',
+          end: '20250915T111500',
+          summary: 'Sales team lunch'
+        }
+      ],
+      earliestStart: '2025-09-13T21:13:36.210Z',
+      conflictingTasks: [
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        }
+      ],
+      mode: 'replan',
+      feedback: 'overrun'
+    }
+
+      at schedule (services/schedulerService.js:65:11)
+
+  console.log
+    SchedulerService: PlannerAgent result: {
+      scheduledTasks: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 90,
+          planned_start: '2025-09-13T21:13:36.210Z',
+          planned_end: '2025-09-13T22:43:36.210Z'
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 60,
+          planned_start: '2025-09-13T22:43:36.210Z',
+          planned_end: '2025-09-14T00:43:36.210Z'
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 120,
+          planned_start: '2025-09-14T00:43:36.210Z',
+          planned_end: '2025-09-14T02:43:36.210Z'
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 150,
+          planned_start: '2025-09-14T02:43:36.210Z',
+          planned_end: '2025-09-14T05:13:36.210Z'
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 90,
+          planned_start: '2025-09-14T05:13:36.210Z',
+          planned_end: '2025-09-14T06:43:36.210Z'
+        }
+      ],
+      warnings: [
+        'All tasks are scheduled without overlap and during available slots, respecting unavailable times and earliest start.',
+        'The schedule covers the entire workload before the assignment due date of September 19, 2025.',
+        'Total scheduled hours: approximately 9.5 hours, aligning with the estimated effort.'
+      ]
+    }
+
+      at schedule (services/schedulerService.js:68:11)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100 ORDER BY "ScheduleVersion"."version_number" DESC LIMIT 1;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "schedule_versions" ("id","assignment_id","version_number","cause","diff","feedback","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5,$6) RETURNING "id","assignment_id","version_number","cause","diff","feedback","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."id" = 334;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "work_sessions" ("id","task_id","student_id","start_time","notes","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5) RETURNING "id","task_id","student_id","start_time","end_time","duration","notes","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "task_id", "student_id", "start_time", "end_time", "duration", "notes", "created_at" FROM "work_sessions" AS "WorkSession" WHERE "WorkSession"."id" = 18;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): UPDATE "work_sessions" SET "notes"=$1 WHERE "id" = $2
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."id" = 334;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): UPDATE "tasks" SET "status"=$1 WHERE "id" = $2
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "student_id", "title", "description", "course", "due_date", "priority", "media", "estimatedhours", "rationale", "complexity", "status", "created_at", "updated_at" FROM "assignments" AS "Assignment" WHERE "Assignment"."id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "student_id", "title", "description", "course", "due_date", "priority", "media", "estimatedhours", "rationale", "complexity", "status", "created_at", "updated_at" FROM "assignments" AS "Assignment" WHERE "Assignment"."student_id" = 3;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."assignment_id" IN (100);
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    SchedulerService: Received assignment: Assignment {
+      dataValues: {
+        id: 100,
+        student_id: 3,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        course: '123',
+        due_date: 2025-09-19T00:00:00.000Z,
+        priority: 'high',
+        media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+        estimatedhours: 9.5,
+        rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+        complexity: 'high',
+        status: 'active',
+        created_at: 2025-09-13T21:12:59.051Z,
+        updated_at: 2025-09-13T21:12:59.052Z
+      },
+      _previousDataValues: {
+        id: 100,
+        student_id: 3,
+        title: 'Homework',
+        description: 'Test full workflow telemetry',
+        course: '123',
+        due_date: 2025-09-19T00:00:00.000Z,
+        priority: 'high',
+        media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+        estimatedhours: 9.5,
+        rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+        complexity: 'high',
+        status: 'active',
+        created_at: 2025-09-13T21:12:59.051Z,
+        updated_at: 2025-09-13T21:12:59.052Z
+      },
+      uniqno: 1,
+      _changed: Set(0) {},
+      _options: {
+        isNewRecord: false,
+        _schema: null,
+        _schemaDelimiter: '',
+        raw: true,
+        attributes: [
+          'id',             'student_id',
+          'title',          'description',
+          'course',         'due_date',
+          'priority',       'media',
+          'estimatedhours', 'rationale',
+          'complexity',     'status',
+          'created_at',     'updated_at'
+        ]
+      },
+      isNewRecord: false
+    }
+
+      at schedule (services/schedulerService.js:51:11)
+
+  console.log
+    SchedulerService: Received scrubbed task plans: [
+      Task {
+        dataValues: {
+          id: 335,
+          assignment_id: 100,
+          title: 'Break down each question into key points and required analysis',
+          description: '',
+          planned_start: 2025-09-13T23:43:14.198Z,
+          planned_end: 2025-09-14T00:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 335,
+          assignment_id: 100,
+          title: 'Break down each question into key points and required analysis',
+          description: '',
+          planned_start: 2025-09-13T23:43:14.198Z,
+          planned_end: 2025-09-14T00:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 336,
+          assignment_id: 100,
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          description: '',
+          planned_start: 2025-09-14T00:43:14.198Z,
+          planned_end: 2025-09-14T02:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 336,
+          assignment_id: 100,
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          description: '',
+          planned_start: 2025-09-14T00:43:14.198Z,
+          planned_end: 2025-09-14T02:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 337,
+          assignment_id: 100,
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          description: '',
+          planned_start: 2025-09-14T02:43:14.198Z,
+          planned_end: 2025-09-14T05:13:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 337,
+          assignment_id: 100,
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          description: '',
+          planned_start: 2025-09-14T02:43:14.198Z,
+          planned_end: 2025-09-14T05:13:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      Task {
+        dataValues: {
+          id: 338,
+          assignment_id: 100,
+          title: 'Review and refine answers for accuracy and coherence',
+          description: '',
+          planned_start: 2025-09-14T05:13:14.198Z,
+          planned_end: 2025-09-14T06:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        _previousDataValues: {
+          id: 338,
+          assignment_id: 100,
+          title: 'Review and refine answers for accuracy and coherence',
+          description: '',
+          planned_start: 2025-09-14T05:13:14.198Z,
+          planned_end: 2025-09-14T06:43:14.198Z,
+          actual_start: null,
+          actual_end: null,
+          priority: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:13:22.186Z,
+          updated_at: 2025-09-13T21:13:22.186Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      }
+    ]
+
+      at schedule (services/schedulerService.js:52:11)
+
+  console.log
+    SchedulerService: Received unavailable slots: [
+      {
+        start: '20250913T000000',
+        end: '20250914T000000',
+        summary: 'Blocked - All day'
+      },
+      {
+        start: '20250914T000000',
+        end: '20250914T110000',
+        summary: 'Blocked - Morning'
+      },
+      {
+        start: '20250913T060000',
+        end: '20250913T070000',
+        summary: 'Bi-weekly check-in'
+      },
+      {
+        start: '20250914T100000',
+        end: '20250914T140000',
+        summary: "Farmers' Market"
+      },
+      {
+        start: '20250915T094500',
+        end: '20250915T111500',
+        summary: 'Sales team lunch'
+      }
+    ]
+
+      at schedule (services/schedulerService.js:64:11)
+
+  console.log
+    SchedulerService: Planner input: {
+      assignment: Assignment {
+        dataValues: {
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          estimatedhours: 9.5,
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          complexity: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        _previousDataValues: {
+          id: 100,
+          student_id: 3,
+          title: 'Homework',
+          description: 'Test full workflow telemetry',
+          course: '123',
+          due_date: 2025-09-19T00:00:00.000Z,
+          priority: 'high',
+          media: '/Users/shourya-isr/Desktop/Coding/Projects/StudyStream/Source/media/1696828586_Paper_1_Mock_Exam_1.pdf',
+          estimatedhours: 9.5,
+          rationale: 'The assignment encompasses a detailed case study with multiple questions requiring analysis, application of business concepts, and critical thinking, which collectively demand a substantial time investment. Reading and understanding the PDF thoroughly is the foundation, followed by breaking down questions and researching relevant theories and practices. Drafting and refining responses ensure quality and comprehensiveness. The difficulty level is high due to the complexity of issues such as leadership styles, ethical considerations, and financial decision-making, which are typical at a higher academic level.',
+          complexity: 'high',
+          status: 'active',
+          created_at: 2025-09-13T21:12:59.051Z,
+          updated_at: 2025-09-13T21:12:59.052Z
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      scrubbedTaskPlans: [
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        }
+      ],
+      unavailableSlots: [
+        {
+          start: '20250913T000000',
+          end: '20250914T000000',
+          summary: 'Blocked - All day'
+        },
+        {
+          start: '20250914T000000',
+          end: '20250914T110000',
+          summary: 'Blocked - Morning'
+        },
+        {
+          start: '20250913T060000',
+          end: '20250913T070000',
+          summary: 'Bi-weekly check-in'
+        },
+        {
+          start: '20250914T100000',
+          end: '20250914T140000',
+          summary: "Farmers' Market"
+        },
+        {
+          start: '20250915T094500',
+          end: '20250915T111500',
+          summary: 'Sales team lunch'
+        }
+      ],
+      earliestStart: '2025-09-13T21:13:43.601Z',
+      conflictingTasks: [
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        },
+        Task {
+          dataValues: [Object],
+          _previousDataValues: [Object],
+          uniqno: 1,
+          _changed: Set(0) {},
+          _options: [Object],
+          isNewRecord: false
+        }
+      ],
+      mode: 'replan',
+      feedback: 'paused'
+    }
+
+      at schedule (services/schedulerService.js:65:11)
+
+  console.log
+    SchedulerService: PlannerAgent result: {
+      scheduledTasks: [
+        {
+          title: 'Read the entire assignment PDF thoroughly',
+          duration: 90,
+          planned_start: '2025-09-13T21:13:43.601Z',
+          planned_end: '2025-09-13T22:43:43.601Z'
+        },
+        {
+          title: 'Break down each question into key points and required analysis',
+          duration: 60,
+          planned_start: '2025-09-13T23:00:00.000Z',
+          planned_end: '2025-09-14T00:00:00.000Z'
+        },
+        {
+          title: 'Research relevant business concepts (e.g., leadership, MNC, marketing mix, finance options)',
+          duration: 120,
+          planned_start: '2025-09-14T00:30:00.000Z',
+          planned_end: '2025-09-14T02:30:00.000Z'
+        },
+        {
+          title: 'Draft responses for each question, focusing on clarity and completeness',
+          duration: 150,
+          planned_start: '2025-09-14T03:00:00.000Z',
+          planned_end: '2025-09-14T05:30:00.000Z'
+        },
+        {
+          title: 'Review and refine answers for accuracy and coherence',
+          duration: 90,
+          planned_start: '2025-09-14T06:00:00.000Z',
+          planned_end: '2025-09-14T07:30:00.000Z'
+        }
+      ],
+      warnings: [
+        'Schedule has been adjusted to avoid blocked periods and conflicts.',
+        'The earliest tasks start immediately after the earliest start time.',
+        'The final task has been scheduled before the assignment due date, providing ample time for completion.',
+        'Task durations are maintained at minimum 30 minutes, and tasks are split or padded accordingly.'
+      ]
+    }
+
+      at schedule (services/schedulerService.js:68:11)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100 ORDER BY "ScheduleVersion"."version_number" DESC LIMIT 1;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): INSERT INTO "schedule_versions" ("id","assignment_id","version_number","cause","diff","feedback","created_at") VALUES (DEFAULT,$1,$2,$3,$4,$5,$6) RETURNING "id","assignment_id","version_number","cause","diff","feedback","created_at";
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "title", "description", "planned_start", "planned_end", "actual_start", "actual_end", "priority", "status", "created_at", "updated_at" FROM "tasks" AS "Task" WHERE "Task"."id" = 334;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+  console.log
+    Executing (default): SELECT "id", "assignment_id", "version_number", "cause", "diff", "feedback", "created_at" FROM "schedule_versions" AS "ScheduleVersion" WHERE "ScheduleVersion"."assignment_id" = 100;
+
+      at Sequelize.log (node_modules/sequelize/src/sequelize.js:1281:15)
+
+PASS tests/telemetryFlow.test.js (58.467 s)
+  Telemetry + Adaptive Scheduling Flow
+    ✓ should start a session for the first task (8 ms)
+    ✓ should end the session with efficient feedback (finished 10 min before planned_end) (13972 ms)
+    ✓ should start and end a session with overrun feedback (finished 10 min after planned_end) (7392 ms)
+    ✓ should pause a session and trigger paused feedback (13024 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        58.577 s
+Ran all test suites matching tests/telemetryFlow.test.js.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

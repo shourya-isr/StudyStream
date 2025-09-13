@@ -57,10 +57,9 @@ async function schedule(assignment, taskPlans, earliestStart, constraints = {}) 
     scrubbedTaskPlans: taskPlans,
     unavailableSlots,
     earliestStart,
-    // Only add conflictingTasks if present
     ...(constraints.conflictingTasks ? { conflictingTasks: constraints.conflictingTasks } : {}),
-    // Add mode flag if present
-    ...(constraints.mode ? { mode: constraints.mode } : {})
+    ...(constraints.mode ? { mode: constraints.mode } : {}),
+    ...(constraints.feedback ? { feedback: constraints.feedback } : {})
   };
   console.log('SchedulerService: Received unavailable slots:', unavailableSlots);
   console.log('SchedulerService: Planner input:', plannerInput);
@@ -82,14 +81,13 @@ export default {
    * @param {Array} conflictingTasks
    * @returns {Object} PlannerAgent result
    */
-  async replanSchedule(assignment, activeTasks, conflictingTasks) {
+  async replanSchedule(assignment, activeTasks, conflictingTasks, feedback = 'neutral') {
     const earliestStart = new Date().toISOString();
-    // Delegate to schedule with mode and conflictingTasks
     return await schedule(
       assignment,
       activeTasks,
       earliestStart,
-      { conflictingTasks, mode: 'replan' }
+      { conflictingTasks, mode: 'replan', feedback }
     );
   },
   /**
