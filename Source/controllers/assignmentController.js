@@ -57,10 +57,14 @@ export async function createAssignment(req, res) {
 export async function updateAssignment(req, res) {
   const { id } = req.params;
   const data = req.body;
-  const assignment = await Assignment.findByPk(id);
-  if (!assignment) return res.status(404).json({ error: 'Assignment not found' });
-  await assignment.update(data);
-  res.json(assignment);
+  const AssignmentService = (await import('../services/assignmentService.js')).default;
+  try {
+    const result = await AssignmentService.updateAssignment(id, data);
+    res.json(result);
+  } catch (err) {
+    console.error('Assignment update error:', err);
+    res.status(400).json({ error: err.message, details: err });
+  }
 }
 
 // DELETE /assignments/:id
