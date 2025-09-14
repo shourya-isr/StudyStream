@@ -1,91 +1,107 @@
 // CalendarService: stub for calendar integration
 
-import fs from 'fs';
-import { icsToJson } from 'ics-to-json';
 
-import db from '../models/index.js';
+import { google } from 'googleapis';
+import dotenv from 'dotenv';
+dotenv.config();
 
-function taskToICS(tasks) {
-  let ics = 'BEGIN:VCALENDAR\nVERSION:2.0\n';
-  for (const task of tasks) {
-    ics += 'BEGIN:VEVENT\n';
-    if (task.title) ics += `SUMMARY:${task.title}\n`;
-    if (task.description) ics += `DESCRIPTION:${task.description}\n`;
-    if (task.status) ics += `X-STATUS:${task.status}\n`;
-    if (task.priority) ics += `PRIORITY:${task.priority === 'high' ? 1 : task.priority === 'medium' ? 5 : 9}\n`;
-    if (task.assignment_id) ics += `X-ASSIGNMENT-ID:${task.assignment_id}\n`;
-    if (task.planned_start) ics += `DTSTART:${formatICSDate(task.planned_start)}\n`;
-    if (task.planned_end) ics += `DTEND:${formatICSDate(task.planned_end)}\n`;
-    ics += 'END:VEVENT\n';
-  }
-  ics += 'END:VCALENDAR\n';
-  return ics;
-}
 
-function formatICSDate(date) {
-  // Format as YYYYMMDDTHHmmssZ
-  const d = new Date(date);
-  return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z').replace('T', 'T');
-}
 
-export default {
-  async getAvailability(studentId) {
-    // Read sample.ics from calendar folder
-    const icsPath = new URL('../calendar/sample.ics', import.meta.url).pathname;
-    const icsData = fs.readFileSync(icsPath, 'utf-8');
-    // Convert ICS to JSON
-    let calendarJson;
-    try {
-      calendarJson = icsToJson(icsData);
-    } catch (e) {
-      calendarJson = null;
+const calendarService = {
+  async getAvailability(studentId, oauth2Client, { timeMin, timeMax } = {}) {
+    // Use real credentials from .env if no oauth2Client is provided (for test environments)
+    if (!oauth2Client) {
+      oauth2Client = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        process.env.GOOGLE_REDIRECT_URI
+      );
+      oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN });
     }
-    // Extract unavailable slots (blocked slots and events)
-    let unavailableSlots = [];
-    if (calendarJson && Array.isArray(calendarJson.events) && calendarJson.events.length > 0) {
-      for (const event of calendarJson.events) {
-        if (event.start && event.end) {
-          unavailableSlots.push({
-            start: event.start,
-            end: event.end,
-            summary: event.summary || ''
-          });
-        }
-      }
-    } else {
-      // Fallback: manual ICS parsing for VEVENT blocks
-      const eventRegex = /BEGIN:VEVENT([\s\S]*?)END:VEVENT/g;
-      const dtstartRegex = /DTSTART[^:]*:(.*)/;
-      const dtendRegex = /DTEND[^:]*:(.*)/;
-      const summaryRegex = /SUMMARY:(.*)/;
-      let match;
-      while ((match = eventRegex.exec(icsData)) !== null) {
-        const block = match[1];
-        const startMatch = dtstartRegex.exec(block);
-        const endMatch = dtendRegex.exec(block);
-        const summaryMatch = summaryRegex.exec(block);
-        if (startMatch && endMatch) {
-          unavailableSlots.push({
-            start: startMatch[1].trim(),
-            end: endMatch[1].trim(),
-            summary: summaryMatch ? summaryMatch[1].trim() : ''
-          });
-        }
-      }
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    // Default: today
+    if (!timeMin || !timeMax) {
+      const today = new Date();
+      timeMin = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
+      timeMax = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).toISOString();
     }
-    return unavailableSlots;
+    const result = await calendar.events.list({
+      calendarId: 'primary',
+      timeMin,
+      timeMax,
+      singleEvents: true,
+      orderBy: 'startTime',
+    });
+    // Return unavailable slots (start, end, summary)
+    return result.data.items.map(event => ({
+      start: event.start.dateTime || event.start.date,
+      end: event.end.dateTime || event.end.date,
+      summary: event.summary || ''
+    }));
   },
 
-  async exportTasksToICS(studentId) {
-  // Fetch all tasks for the student
-  const assignments = await db.Assignment.findAll({ where: { student_id: studentId } });
-  const assignmentIds = assignments.map(a => a.id);
-  const tasks = await db.Task.findAll({ where: { assignment_id: assignmentIds } });
-  const icsString = taskToICS(tasks);
-  // Save to calendar folder with timestamp
-  const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\..*$/, '');
-  const filePath = `calendar/sample_${timestamp}.ics`;
-  fs.writeFileSync(filePath, icsString, 'utf-8');
-  return filePath;
+  async exportTasksToGoogleCalendar(studentId, oauth2Client) {
+    // Fetch all tasks for the student
+    const db = (await import('../models/index.js')).default;
+    const assignments = await db.Assignment.findAll({ where: { student_id: studentId } });
+    const assignmentIds = assignments.map(a => a.id);
+    const tasks = await db.Task.findAll({ where: { assignment_id: assignmentIds } });
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    // Create events for each task
+    // assignment_id is always saved in extendedProperties.private for each event
+    const createdEvents = [];
+    for (const task of tasks) {
+      const eventData = {
+        summary: task.title,
+        description: task.description || '',
+        start: { dateTime: task.planned_start ? new Date(task.planned_start).toISOString() : undefined },
+        end: { dateTime: task.planned_end ? new Date(task.planned_end).toISOString() : undefined },
+        extendedProperties: {
+          private: {
+            assignment_id: task.assignment_id, // always present for safe deletion
+            status: task.status,
+            priority: task.priority,
+            task_id: task.id
+          }
+        }
+      };
+      const result = await calendar.events.insert({ calendarId: 'primary', resource: eventData });
+      createdEvents.push(result.data);
+    }
+    return createdEvents;
+  },
+
+  async deleteTaskEventsFromGoogleCalendar(studentId, taskOrAssignment, oauth2Client) {
+    // Accept assignment object for deletion
+    let assignmentId = null;
+    if (taskOrAssignment && typeof taskOrAssignment === 'object' && 'id' in taskOrAssignment) {
+      assignmentId = taskOrAssignment.id;
+    } else if (typeof taskOrAssignment === 'number') {
+      assignmentId = taskOrAssignment;
+    }
+    console.log('Deleting events for assignmentId:', assignmentId);
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    const now = new Date();
+    const timeMin = now.toISOString();
+    const timeMax = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    const result = await calendar.events.list({
+      calendarId: 'primary',
+      timeMin,
+      timeMax,
+      singleEvents: true,
+      orderBy: 'startTime',
+    });
+    const events = result.data.items || [];
+    // Find events with matching assignment_id in extendedProperties.private
+    const toDelete = events.filter(event => {
+      const ext = event.extendedProperties && event.extendedProperties.private;
+      return ext && ext.assignment_id && assignmentId && String(ext.assignment_id) === String(assignmentId);
+    });
+    for (const event of toDelete) {
+      await calendar.events.delete({ calendarId: 'primary', eventId: event.id });
+    }
+    return toDelete.map(e => e.id);
   }
 };
+
+export default calendarService;

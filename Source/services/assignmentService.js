@@ -1,3 +1,4 @@
+// ...existing code...
 // Removed duplicate updateAssignment function definition
 // AssignmentService: coordinates agents/services and updates the DB
 
@@ -25,6 +26,14 @@ async function createScheduleVersion(assignmentId, cause, diff, warnings, feedba
 }
 
 export default {
+  /**
+   * Syncs all tasks for an assignment to Google Calendar using schedulerService.
+   */
+  async syncAssignmentTasksToGoogleCalendar(assignment, oauth2Client) {
+    const tasks = await db.Task.findAll({ where: { assignment_id: assignment.id } });
+    // Pass assignment object for deletion in schedulerService
+    return await SchedulerService.syncTasksToGoogleCalendar(assignment.student_id, tasks, oauth2Client);
+  },
   // ...existing code...
   async notifyTaskComplete(taskId, actualDuration, feedback = 'efficient') {
     // Update task status to completed
@@ -163,11 +172,21 @@ export default {
       await createScheduleVersion(assignment.id, 'update', updatedTasks, warnings);
     }
 
-    // 8. Return updated assignment, updated tasks, scheduleVersionId, warnings
+    // 8. Sync Google Calendar events for this assignment if oauth2Client is available
+    let gcalEvents = [];
+    if (typeof global !== 'undefined' && global.oauth2Client) {
+      try {
+        gcalEvents = await this.syncAssignmentTasksToGoogleCalendar(assignment, global.oauth2Client);
+      } catch (e) {
+        console.warn('Google Calendar sync failed:', e.message);
+      }
+    }
+    // 9. Return updated assignment, updated tasks, scheduleVersionId, warnings, gcalEvents
     return {
       updatedAssignment: assignment,
       updatedTasks,
-      warnings
+      warnings,
+      gcalEvents
     };
   },
   async createAssignment(data) {

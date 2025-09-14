@@ -1,4 +1,12 @@
 /**
+ * Syncs all tasks for an assignment to Google Calendar: deletes old events, then adds current tasks.
+ * @param {number} studentId
+ * @param {Array} tasks - Array of task objects from DB
+ * @param {object} oauth2Client - Authenticated Google OAuth2 client
+ * @returns {Array} createdEvents - Array of created Google Calendar events
+ */
+// ...existing code...
+/**
  * Computes schedule overview: timeline, capacity, risks, next actions.
  * @param {Array} assignments
  * @param {Array} tasks
@@ -85,11 +93,11 @@ import CalendarService from './calendarService.js';
  * @param {Object} [constraints] Optional. { conflictingTasks, mode }
  * @returns {Object} PlannerAgent result
  */
-async function schedule(assignment, taskPlans, earliestStart, constraints = {}) {
-  // Step 1: Get unavailable slots from calendar
+async function schedule(assignment, taskPlans, earliestStart, constraints = {}, oauth2Client) {
+  // Step 1: Get unavailable slots from Google Calendar
   console.log('SchedulerService: Received assignment:', assignment);
   console.log('SchedulerService: Received scrubbed task plans:', taskPlans);
-  const unavailableSlots = await CalendarService.getAvailability(assignment.student_id);
+  const unavailableSlots = await CalendarService.getAvailability(assignment.student_id, oauth2Client);
   // Compose planner input
   const plannerInput = {
     assignment,
@@ -109,6 +117,21 @@ async function schedule(assignment, taskPlans, earliestStart, constraints = {}) 
 }
 
 export default {
+  /**
+   * Syncs all tasks for an assignment to Google Calendar: deletes old events, then adds current tasks.
+   */
+  async syncTasksToGoogleCalendar(studentId, tasks, oauth2Client) {
+    // Delete all events for this assignment before creating new ones
+    if (tasks.length > 0) {
+      const assignment = tasks[0].assignment_id ? { id: tasks[0].assignment_id } : null;
+      if (assignment) {
+        await CalendarService.deleteTaskEventsFromGoogleCalendar(studentId, assignment, oauth2Client);
+      }
+    }
+    // Add current tasks as events
+    const createdEvents = await CalendarService.exportTasksToGoogleCalendar(studentId, oauth2Client);
+    return createdEvents;
+  },
   splitIntoBlocks,
   resolveConflicts,
   minimizeChanges,
